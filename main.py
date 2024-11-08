@@ -1,33 +1,22 @@
-from menus.main import *
-Running = True
+from game.menu import show_mainmenu, show_aboutmenu
+from game.game_manager import GameManager
 
-def mainmenu():
-    global Running
-    
-    show_mainmenu()
-    choice = input((">"))
+def main():
+    game = GameManager()
+    while game.running:
+        show_mainmenu()
+        choice = input("> ")
 
-    if choice == "4":
-        print("Exiting...")
-        Running = False
+        if choice == "1":
+            game.start_new_game()
+        elif choice == "2":
+            game.load_saved_game()
+        elif choice == "3":
+            show_aboutmenu()
+        elif choice == "4":
+            game.exit_game()
+        else:
+            print("Invalid choice, please try again.")
 
-    elif choice == "3":
-        show_aboutmenu()
-
-    elif choice == "2":
-        print("""Loading... 
-1001 Errors""")
-        Running = False
-
-    elif choice == "1":
-        print("""Loading... 
-1001 Errors""")
-        Running = False
-
-    else:
-        print("Invalid choice, please try again.")
-        
-
-
-while Running :
-    mainmenu()
+if __name__ == "__main__":
+    main()
