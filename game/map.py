@@ -67,8 +67,24 @@ class GameMap:
                 x -= 1
 
         if self.map_data[y][x] == "b":  
-            player.weapon = ("Katana", 2) 
-            print("You found a Katana! It doubles your damage!")
+            player.weapon = ("Katana", 1.5) 
+            print("You found a Katana, The Best Blade !")
+
+        elif self.map_data[y][x] == "gs":  
+            weapon = ("Great Sword", 1.25) 
+            if player.weapon[1] < weapon[1]:
+                player.weapon = ("Great Sword", 1.25) 
+                print(f"You found a Great Sword. This weapon is better than your '{player.weapon[0]}', so you equip it!")
+            else:
+                print(f"You found a Great Sword, but your '{player.weapon[0]}' is better, so you continue using it.")
+
+        elif self.map_data[y][x] == "sw":  
+            weapon = ("Sword", 1) 
+            if player.weapon[1] < weapon[1]:
+                player.weapon = ("Sword", 1) 
+                print(f"You found a Sword. This weapon is better than your '{player.weapon[0]}', so you equip it!")
+            else:
+                print(f"You found a Sword, but your '{player.weapon[0]}' is better, so you continue using it.")
 
         elif self.map_data[y][x] == "!": 
             monster_level = max(player.level - 1, 1) 

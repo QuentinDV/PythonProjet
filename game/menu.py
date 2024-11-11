@@ -17,12 +17,12 @@ def show_aboutmenu():
 def tutorial():
     print("""Keybinds :
 Go Top/North : Z, N or T 
-Go Bottom/South : S
+Go Bottom/South : S, B
 Go Left/West : L, Q or W 
 Go Right/East : R, D or E
 Open Inventory : I
 See Keybinds : K
-Type "SAVE" to save your progress 
+Type "Save" to save your progress 
 Type "Exit" to left the game without saving""")
 
 def display_health(player):
