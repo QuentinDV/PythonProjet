@@ -27,7 +27,7 @@ class Combat:
             print(f"{ORANGE}{self.player.name}{RESET} | {ROSE}Lvl:{RESET} {self.player.level} | {ROSE}{self.player.xp}/{self.player.xp_to_level_up} {GREY}XP{RESET}") 
             print(self.display_health(self.player.hp, self.player.max_hp))     
             print(f"{BROWN}Damage:{RESET} {self.player.attack} | {LIGHT_BLUE}Defense:{RESET} {self.player.defense}")
-            print(f"{GRAY_BLUE}Weapon:{RESET} {self.player.weapon[0]}, {BROWN}Dmg:{RESET} x{self.player.weapon[1]}")
+            print(f"{GRAY_BLUE}Weapon:{RESET} {self.player.weapon.name}, {BROWN}Dmg:{RESET} x{self.player.weapon.damage}")
             print("")
             print(f"{RED}{self.monster.name}{RESET} | {ROSE}Lvl:{RESET} {self.monster.level}")
             print(self.display_health(self.monster.hp, self.monster.max_hp))
@@ -80,21 +80,21 @@ class Combat:
             print(self.display_health(self.player.hp, self.player.max_hp))
 
             print(f"{BROWN}Damage:{RESET} {self.player.attack} | {LIGHT_BLUE}Defense:{RESET} {self.player.defense}")
-            print(f"{GRAY_BLUE}Weapon:{RESET} {self.player.weapon[0]}, {BROWN}Dmg:{RESET} x{self.player.weapon[1]}")
+            print(f"{GRAY_BLUE}Weapon:{RESET} {self.player.weapon.name}, {BROWN}Dmg:{RESET} x{self.player.weapon.damage}")
 
             print(f"{GREY}Inventory :")
-            if self.player.healpotion > 0: 
-                print(f"{DARK_GREEN}Heal Potion:{RESET} x{self.player.healpotion} | {GREY}Type 'hp' to use one{RESET}")
+            if self.player.inventory.healpotion > 0: 
+                print(f"{DARK_GREEN}Heal Potion:{RESET} x{self.player.inventory.healpotion} | {GREY}Type 'hp' to use one{RESET}")
             else:
                 print(f"{DARK_GREEN}Heal Potion:{RESET} None")
 
-            if self.player.attackpotion > 0: 
-                print(f"{BROWN}Attack Potion:{RESET} x{self.player.attackpotion} | {GREY}Type 'ap' to use one{RESET}")
+            if self.player.inventory.attackpotion > 0: 
+                print(f"{BROWN}Attack Potion:{RESET} x{self.player.inventory.attackpotion} | {GREY}Type 'ap' to use one{RESET}")
             else:
                 print(f"{BROWN}Attack Potion:{RESET} None")
 
-            if self.player.defensepotion > 0: 
-                print(f"{LIGHT_BLUE}Defense Potion:{RESET} x{self.player.defensepotion} | {GREY}Type 'dp' to use one{RESET}")
+            if self.player.inventory.defensepotion > 0: 
+                print(f"{LIGHT_BLUE}Defense Potion:{RESET} x{self.player.inventory.defensepotion} | {GREY}Type 'dp' to use one{RESET}")
             else:
                 print(f"{LIGHT_BLUE}Defense Potion:{RESET} None")
 
@@ -123,8 +123,8 @@ class Combat:
 
 
     def use_healpotion(self):
-        if self.player.healpotion > 0:
-            self.player.healpotion -= 1
+        if self.player.inventory.healpotion > 0:
+            self.player.inventory.healpotion -= 1
             self.player.hp = min(self.player.hp + 20, self.player.max_hp)
             print(f"{ORANGE}You {GREY}used a {DARK_GREEN}heal potion{GREY} and recovered {GREEN}20 HP.{RESET}")
 
@@ -137,8 +137,8 @@ class Combat:
             print(f"{ORANGE}You{GREY} have no {DARK_GREEN}heal potions{GREY} left!{RESET}")     
 
     def use_attackpotion(self):
-        if self.player.attackpotion > 0:
-            self.player.attackpotion -= 1
+        if self.player.inventory.attackpotion > 0:
+            self.player.inventory.attackpotion -= 1
             self.player.attack += 20
             self.use_atk_potion = True
             print(f"{ORANGE}You {GREY}used an {BROWN}Attack Potion{GREY} and gained {BROWN}20 attack power{GREY} until the end of the combat!{RESET}")
@@ -152,8 +152,8 @@ class Combat:
             print(f"{ORANGE}You{GREY} have no {BROWN}Attack Potions{GREY} left!{RESET}")
 
     def use_defensepotion(self):
-        if self.player.defensepotion > 0:
-            self.player.defensepotion -= 1
+        if self.player.inventory.defensepotion > 0:
+            self.player.inventory.defensepotion -= 1
             self.player.defense += 10
             self.use_dfc_potion = True
             print(f"{ORANGE}You {GREY}used a {LIGHT_BLUE}Defense Potion{GREY} and gained {LIGHT_BLUE}10 defense{GREY} until the end of the combat!{RESET}")
@@ -175,7 +175,7 @@ class Combat:
         return f"{GREEN}HP:{RESET} [{health_bar} ] {current_hp}/{max_hp}"
 
     def player_attack(self):
-        playerdamage = int(max(self.player.attack * self.player.weapon[1] - self.monster.defense, 0))
+        playerdamage = int(max(self.player.attack * self.player.weapon.damage - self.monster.defense, 0))
         self.monster.hp -= playerdamage
         if self.monster.hp > 0:
             monsterdamage = int(max(self.monster.attack - self.player.defense, 0))

@@ -1,4 +1,5 @@
-
+from game.inventory import Inventory
+from game.weapon import Weapon
 
 # Codes de couleur ANSI
 RESET = "\033[0m"
@@ -15,10 +16,8 @@ class Player:
         self.attack = (self.level*5) + 20
         self.defense = self.level * 2
         self.position = (0, 0)  
-        self.weapon = ("Knife", 0.75)
-        self.healpotion = 1
-        self.attackpotion = 0
-        self.defensepotion = 0
+        self.weapon = Weapon("Knife", 0.75)
+        self.inventory = Inventory()
         self.xp = 0  
         self.xp_to_level_up = 10  
 

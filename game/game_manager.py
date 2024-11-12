@@ -37,7 +37,7 @@ class GameManager:
         print(display_health(self.player))
 
         print(f"{BROWN}Damage:{RESET} {self.player.attack} | {LIGHT_BLUE}Defense:{RESET} {self.player.defense}")
-        print(f"{GRAY_BLUE}Weapon:{RESET} {self.player.weapon[0]}, {BROWN}Dmg:{RESET} x{self.player.weapon[1]}")
+        print(f"{GRAY_BLUE}Weapon:{RESET} {self.player.weapon.name}, {BROWN}Dmg:{RESET} x{self.player.weapon.damage}")
 
         self.game_map.display_surroundings(self.player)
     
@@ -47,19 +47,19 @@ class GameManager:
         print(display_health(self.player))
 
         print(f"{BROWN}Damage:{RESET} {self.player.attack} | {LIGHT_BLUE}Defense:{RESET} {self.player.defense}")
-        print(f"{GRAY_BLUE}Weapon:{RESET} {self.player.weapon[0]}, {BROWN}Dmg:{RESET} x{self.player.weapon[1]}")
+        print(f"{GRAY_BLUE}Weapon:{RESET} {self.player.weapon.name}, {BROWN}Dmg:{RESET} x{self.player.weapon.damage}")
 
         print(f"{GREY}Inventory :")
-        if self.player.healpotion > 0: 
-            print(f"{DARK_GREEN}Heal Potion:{RESET} x{self.player.healpotion} | {GREY}Type 'hp' after 'Enter' to use one{RESET}")
+        if self.player.inventory.healpotion > 0: 
+            print(f"{DARK_GREEN}Heal Potion:{RESET} x{self.player.inventory.healpotion} | {GREY}Type 'hp' after 'Enter' to use one{RESET}")
         else:
             print("")
-        if self.player.attackpotion > 0: 
-            print(f"{BROWN}Attack Potion:{RESET} x{self.player.attackpotion}")
+        if self.player.inventory.attackpotion > 0: 
+            print(f"{BROWN}Attack Potion:{RESET} x{self.player.inventory.attackpotion}")
         else:
             print("")
-        if self.player.defensepotion > 0: 
-            print(f"{LIGHT_BLUE}Defense Potion:{RESET} x{self.player.defensepotion}")
+        if self.player.inventory.defensepotion > 0: 
+            print(f"{LIGHT_BLUE}Defense Potion:{RESET} x{self.player.inventory.defensepotion}")
         else:
             print("")
 
@@ -111,8 +111,8 @@ class GameManager:
             loose_menu()
 
     def use_healpotion(self):
-        if self.player.healpotion > 0:
-            self.player.healpotion -= 1
+        if self.player.inventory.healpotion > 0:
+            self.player.inventory.healpotion -= 1
             self.player.hp = min(self.player.hp + 20, self.player.max_hp)
             print("You used a potion and recovered 20 HP.")
         else:
