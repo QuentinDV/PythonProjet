@@ -1,5 +1,5 @@
 from os import system
-
+import random
 
 # Codes de couleur ANSI
 RESET = "\033[0m"
@@ -12,6 +12,8 @@ LIGHT_BLUE = "\033[96m"
 GRAY_BLUE = "\033[38;5;67m"
 GREY = "\033[38;5;245m"
 ROSE = "\033[38;5;213m"
+
+
 
 class Combat:
     def __init__(self, player, monster):
@@ -62,7 +64,7 @@ class Combat:
             if self.use_atk_potion:
                 self.player.attack -= 20
             if self.use_dfc_potion:
-                self.player.defense -=10
+                self.player.defense -= 10
 
             lvlup = self.player.add_xp(self.monster.level * 5)
             system('cls')
@@ -70,8 +72,6 @@ class Combat:
                 print(f"{ORANGE}You{GREY} defeated the {RED}Monster{GREY}! And leveled up to {ROSE}level{RESET} {self.player.level}!{RESET}")
             else:
                 print(f"{ORANGE}You{GREY} defeated the {RED}Monster{GREY}! And gained {ROSE}{self.monster.level * 5}{GREY} XP / {ROSE}{self.player.xp}/{self.player.xp_to_level_up}{GREY} XP{RESET}")
-
-            
 
     def inventory_menu(self):
         while True:
@@ -119,8 +119,6 @@ class Combat:
             else:
                 system('cls')
                 print(f"{GREY}Invalid input. Try again.{RESET}")
-
-
 
     def use_healpotion(self):
         if self.player.inventory.healpotion > 0:
@@ -175,12 +173,20 @@ class Combat:
         return f"{GREEN}HP:{RESET} [{health_bar} ] {current_hp}/{max_hp}"
 
     def player_attack(self):
-        playerdamage = int(max(self.player.attack * self.player.weapon.damage - self.monster.defense, 0))
+        playerdamage = self.calculate_crit_damage(self.player.attack * self.player.weapon.damage - self.monster.defense)
         self.monster.hp -= playerdamage
         if self.monster.hp > 0:
-            monsterdamage = int(max(self.monster.attack - self.player.defense, 0))
+            monsterdamage = self.calculate_crit_damage(self.monster.attack - self.player.defense)
             self.player.hp -= monsterdamage
             system('cls')
             print(f"{ORANGE}You{RESET} dealt {BROWN}{playerdamage} damage{RESET} to the {RED}{self.monster.name}{RESET} " +
                   f"/ The {RED}{self.monster.name}{RESET} dealt {BROWN}{monsterdamage} damage{RESET} to {ORANGE}You.{RESET}")
-        
+
+    def calculate_crit_damage(self, damage):
+        # Chance de coup critique (par exemple 20%)
+        crit_chance = 0.2
+        if random.random() < crit_chance:
+            crit_multiplier = 1.5
+            print(f"{RED}Critical hit!{RESET}")
+            return int(damage * crit_multiplier)
+        return int(damage)

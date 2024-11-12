@@ -10,12 +10,12 @@ GREY = "\033[38;5;245m"
 class Player:
     def __init__(self, name):
         self.name = name
+        self.position = (0, 0)  
         self.level = 1
         self.max_hp = (self.level*10) + 80
         self.hp = (self.level*10) + 80
         self.attack = (self.level*5) + 20
         self.defense = self.level * 2
-        self.position = (0, 0)  
         self.weapon = Weapon("Knife", 0.75)
         self.inventory = Inventory()
         self.xp = 0  

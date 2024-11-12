@@ -1,5 +1,6 @@
 from game.monster import Monster  
 from game.combat import Combat
+from game.weapon import Weapon
 from os import system
 
 
@@ -94,21 +95,21 @@ class GameMap:
                 x -= 1
 
         if self.map_data[y][x] == "b" and self.player_map[y][x] == 0:  
-            player.weapon = ("Katana", 1.5) 
+            player.weapon = Weapon("Katana", 1.5) 
             print(f"{GREY}You found a {GRAY_BLUE}Katana{GREY}, The Best Blade !")
 
         elif self.map_data[y][x] == "gs" and self.player_map[y][x] == 0:  
             weapon = ("Great Sword", 1.25) 
-            if player.weapon[1] < weapon[1]:
-                player.weapon = ("Great Sword", 1.25) 
+            if player.weapon.damage < weapon[1]:
+                player.weapon = Weapon("Great Sword", 1.25) 
                 print(f"{GREY}You found a {GRAY_BLUE}Great Sword{GREY}. This weapon is better than your {GRAY_BLUE}'{player.weapon[0]}'{GREY}, so you equip it!")
             else:
                 print(f"{GREY}You found a {GRAY_BLUE}Great Sword{GREY}, but your {GRAY_BLUE}'{player.weapon[0]}'{GREY} is better, so you continue using it.")
 
         elif self.map_data[y][x] == "sw" and self.player_map[y][x] == 0:  
             weapon = ("Sword", 1) 
-            if player.weapon[1] < weapon[1]:
-                player.weapon = ("Sword", 1) 
+            if player.weapon.damage < weapon[1]:
+                player.weapon = Weapon("Sword", 1) 
                 print(f"{GREY}You found a {GRAY_BLUE}Sword{GREY}. This weapon is better than your {GRAY_BLUE}'{player.weapon[0]}'{GREY}, so you equip it!")
             else:
                 print(f"{GREY}You found a {GRAY_BLUE}Sword{GREY}, but your {GRAY_BLUE}'{player.weapon[0]}'{GREY} is better, so you continue using it.")
@@ -119,15 +120,15 @@ class GameMap:
             combat.start()
 
         elif self.map_data[y][x] == "hp" and self.player_map[y][x] == 0: 
-            player.healpotion += 1
+            player.inventory.healpotion += 1
             print(f"{GREY}You found a {DARK_GREEN}heal potion{GREY}! You can use it to {DARK_GREEN}heal{GREY} yourself.")
 
         elif self.map_data[y][x] == "ap" and self.player_map[y][x] == 0:
-            player.attackpotion += 1
+            player.inventory.attackpotion += 1
             print(f"{GREY}You found an {BROWN}Attack Potion{GREY}! You can use it to {BROWN}boost your attack{GREY} in combat.")
 
         elif self.map_data[y][x] == "dp" and self.player_map[y][x] == 0:
-            player.defensepotion += 1
+            player.inventory.defensepotion += 1
             print(f"{GREY}You found a {LIGHT_BLUE}Defense Potion{GREY}! You can use it to {LIGHT_BLUE}increase your defense{GREY} in combat.")
 
         elif self.map_data[y][x] == "B" : 
