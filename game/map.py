@@ -99,8 +99,7 @@ class GameMap:
                 print(f"{GREY}You found a {GRAY_BLUE}Sword{GREY}, but your {GRAY_BLUE}'{player.weapon[0]}'{GREY} is better, so you continue using it.")
 
         elif self.map_data[y][x] == "!": 
-            monster_level = max(player.level - 1, 1) 
-            monster = Monster(monster_level)  
+            monster = Monster(player.level +1)  
             combat = Combat(player, monster)
             combat.start()
 

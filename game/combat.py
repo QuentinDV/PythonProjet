@@ -24,7 +24,7 @@ class Combat:
         system('cls')
         print(f"{GREY}A wild {RED}{self.monster.name}{GREY} appears!")
         while self.player.hp > 0 and self.monster.hp > 0:
-            print(f"{ORANGE}{self.player.name}{RESET} | {ROSE}Lvl:{RESET} {self.player.level}") 
+            print(f"{ORANGE}{self.player.name}{RESET} | {ROSE}Lvl:{RESET} {self.player.level} | {ROSE}{self.player.xp}/{self.player.xp_to_level_up} {GREY}XP{RESET}") 
             print(self.display_health(self.player.hp, self.player.max_hp))     
             print(f"{BROWN}Damage:{RESET} {self.player.attack} | {LIGHT_BLUE}Defense:{RESET} {self.player.defense}")
             print(f"{GRAY_BLUE}Weapon:{RESET} {self.player.weapon[0]}, {BROWN}Dmg:{RESET} x{self.player.weapon[1]}")
@@ -64,13 +64,19 @@ class Combat:
             if self.use_dfc_potion:
                 self.player.defense -=10
 
-            print(f"{ORANGE}You{GREY} defeated the {RED}monster!{RESET}")
-            self.player.level_up()
+            lvlup = self.player.add_xp(self.monster.level * 5)
+
+            if lvlup:
+                print(f"{ORANGE}You{GREY} defeated the {RED}Monster{GREY}! And leveled up to {ROSE}level{RESET} {self.player.level}!{RESET}")
+            else:
+                print(f"{ORANGE}You{GREY} defeated the {RED}Monster{GREY}! And gained {ROSE}{self.monster.level * 5}{GREY} XP / {ROSE}{self.player.xp}/{self.player.xp_to_level_up}{GREY} XP{RESET}")
+
+            
 
     def inventory_menu(self):
         while True:
             system('cls')
-            print(f"{ORANGE}{self.player.name}{RESET} | {ROSE}Lvl:{RESET} {self.player.level}")
+            print(f"{ORANGE}{self.player.name}{RESET} | {ROSE}Lvl:{RESET} {self.player.level} | {ROSE}{self.player.xp}/{self.player.xp_to_level_up} {GREY}XP{RESET}")
             print(self.display_health(self.player.hp, self.player.max_hp))
 
             print(f"{BROWN}Damage:{RESET} {self.player.attack} | {LIGHT_BLUE}Defense:{RESET} {self.player.defense}")
