@@ -43,26 +43,25 @@ class GameManager:
     
     def inventory_menu(self):
         system('cls')
-        print(f"{self.player.name} | Lvl:{self.player.level}")
+        print(f"{ORANGE}{self.player.name}{RESET} | {ROSE}Lvl:{RESET} {self.player.level}")
         print(display_health(self.player))
 
-        print(f"Damage : {self.player.attack} | Defense : {self.player.defense}")
-        print(f"Weapon : {self.player.weapon[0]} | Damage x{self.player.weapon[1]}")
+        print(f"{BROWN}Damage:{RESET} {self.player.attack} | {LIGHT_BLUE}Defense:{RESET} {self.player.defense}")
+        print(f"{GRAY_BLUE}Weapon:{RESET} {self.player.weapon[0]}, {BROWN}Dmg:{RESET} x{self.player.weapon[1]}")
 
-        print("Inventory :")
+        print(f"{GREY}Inventory :")
         if self.player.healpotion > 0: 
-            print(f"Heal Potion : x{self.player.healpotion} | Type 'hp' to use one ")
+            print(f"{DARK_GREEN}Heal Potion:{RESET} x{self.player.healpotion} | {GREY}Type 'hp' after 'Enter' to use one{RESET}")
         else:
             print("")
         if self.player.attackpotion > 0: 
-            print(f"Attack Potion : x{self.player.attackpotion}")
+            print(f"{BROWN}Attack Potion:{RESET} x{self.player.attackpotion}")
         else:
             print("")
         if self.player.defensepotion > 0: 
-            print(f"Heal Potion : x{self.player.defensepotion}")
+            print(f"{LIGHT_BLUE}Defense Potion:{RESET} x{self.player.defensepotion}")
         else:
             print("")
-        print(f"{GREY}Type 'H' For Help")
 
 
     def game_loop(self): 
@@ -71,8 +70,7 @@ class GameManager:
 
         while self.player.hp > 0 and self.running:
             self.game_menu()
-            print(f"{GREY}Type 'H' For Help")
-            command = input(f"{GREEN}>{RESET}").lower()
+            command = input(f"{GREY}Type 'H' For Help{GREY} {DARK_GREEN}>{RESET}").lower()
             system('cls')
 
             if command in ["north", "n", "z", "t"]:
@@ -86,7 +84,7 @@ class GameManager:
 
             elif command == "i":
                 self.inventory_menu()
-                input(f"{DARK_GREEN}Type 'Enter' to continue >")
+                input(f"{GREY}Type 'Enter' to continue {DARK_GREEN}>{RESET}")
                 system('cls')
                 print('')
 
@@ -96,7 +94,7 @@ class GameManager:
             elif command == "h":
                 system('cls')
                 tutorial()
-                input(f"{DARK_GREEN}Type 'Enter' to continue >")
+                input(f"{GREY}Type 'Enter' to continue {DARK_GREEN}>{RESET}")
                 system('cls')
                 print('')
 
@@ -107,7 +105,7 @@ class GameManager:
                 self.running = False
 
             else:
-                print("Invalid command!")
+                print(f"{GREY}Invalid command!{RESET}")
 
         if self.player.hp < 1 and self.running:
             loose_menu()

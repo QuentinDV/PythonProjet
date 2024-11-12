@@ -7,6 +7,7 @@ from os import system
 RESET = "\033[0m"
 ORANGE = "\033[38;5;214m"
 RED = "\033[91m" # POUR LE BOSS
+BROWN = "\033[38;5;94m"
 DARK_GREEN = "\033[38;5;22m"
 LIGHT_BLUE = "\033[96m"
 GRAY_BLUE = "\033[38;5;67m"
@@ -106,6 +107,14 @@ class GameMap:
         elif self.map_data[y][x] == "hp": 
             player.healpotion += 1
             print(f"{GREY}You found a {DARK_GREEN}heal potion{GREY}! You can use it to {DARK_GREEN}heal{GREY} yourself.")
+
+        elif self.map_data[y][x] == "ap":
+            player.attackpotion += 1
+            print(f"{GREY}You found an {BROWN}Attack Potion{GREY}! You can use it to {BROWN}boost your attack{GREY} in combat.")
+
+        elif self.map_data[y][x] == "dp":
+            player.defensepotion += 1
+            print(f"{GREY}You found a {LIGHT_BLUE}Defense Potion{GREY}! You can use it to {LIGHT_BLUE}increase your defense{GREY} in combat.")
 
         elif self.map_data[y][x] == "B": 
             boss = Monster(player.level + 3)  

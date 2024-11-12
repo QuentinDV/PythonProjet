@@ -8,7 +8,7 @@ class Player:
         self.defense = self.level * 2
         self.position = (0, 0)  
         self.weapon = ("Knife", 0.75)
-        self.healpotion = 0
+        self.healpotion = 1
         self.attackpotion = 0
         self.defensepotion = 0
 
