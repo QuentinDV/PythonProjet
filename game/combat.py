@@ -65,7 +65,7 @@ class Combat:
                 self.player.defense -=10
 
             lvlup = self.player.add_xp(self.monster.level * 5)
-
+            system('cls')
             if lvlup:
                 print(f"{ORANGE}You{GREY} defeated the {RED}Monster{GREY}! And leveled up to {ROSE}level{RESET} {self.player.level}!{RESET}")
             else:
