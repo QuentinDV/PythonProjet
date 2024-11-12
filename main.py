@@ -1,12 +1,17 @@
 from game.menu import show_mainmenu, show_aboutmenu
 from game.game_manager import GameManager
+from os import system
 
+# Codes de couleur ANSI
+RESET = "\033[0m"
+GREEN = "\033[92m"
 
 def main():
     game = GameManager()
     while game.running:
+        system('cls')
         show_mainmenu()
-        choice = input("\033[92m>\033[0m ")
+        choice = input(f"{GREEN}>{RESET} ")
 
         if choice == "1":
             game.start_new_game()

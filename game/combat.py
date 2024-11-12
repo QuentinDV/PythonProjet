@@ -27,7 +27,7 @@ class Combat:
                 if self.monster.hp > 0:
                     self.monster_attack()
 
-            elif action == "h":
+            elif action == "hp":
                 self.use_healpotion()
                 if self.monster.hp > 0:
                     self.monster_attack()

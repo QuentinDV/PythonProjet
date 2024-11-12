@@ -2,15 +2,26 @@ from game.monster import Monster
 from game.combat import Combat
 from os import system
 
+
+# Codes de couleur ANSI
+RESET = "\033[0m"
+ORANGE = "\033[38;5;214m"
+RED = "\033[91m" # POUR LE BOSS
+DARK_GREEN = "\033[38;5;22m"
+LIGHT_BLUE = "\033[96m"
+GRAY_BLUE = "\033[38;5;67m"
+GREY = "\033[38;5;245m"
+
+
 class GameMap:
     def __init__(self):
         self.map_data = [
-            ["@", "#", "!", ".", "p", "#", ".", "b"], 
-            [".", "!", ".", "#", ".", "!", "p", "#"],
+            ["@", "#", "!", ".", "hp", "#", ".", "b"], 
+            [".", "!", ".", "#", ".", "!", "hp", "#"],
             ["#", "#", ".", "#", "#", "#", "#", "#"], 
             ["#", ".", ".", "#", ".", ".", ".", "#"],
             ["#", ".", "#", "#", ".", "#", ".", "#"],
-            ["#", "!", "p", ".", "!", "#", "B", "#"],
+            ["#", "!", "hp", ".", "!", "#", "B", "#"],
         ]
 
     def display_surroundings(self, player):
@@ -23,13 +34,13 @@ class GameMap:
                 nx, ny = x + dx, y + dy
 
                 if ny < 0 or ny >= len(self.map_data) or nx < 0 or nx >= len(self.map_data[0]):
-                    print("\033[32m#\033[0m", end=" ")  
+                    print(f"{DARK_GREEN}#{RESET}", end=" ")  
                 elif (dx, dy) == (0, 0):
-                    print("\033[33m@\033[0m", end=" ")  
+                    print(f"{ORANGE}@{RESET}", end=" ")  
                 elif self.map_data[ny][nx] in ("!", "p", "b"):
-                    print("?", end=" ")  
+                    print(f"{LIGHT_BLUE}?{RESET}", end=" ")  
                 elif self.map_data[ny][nx] == "#":
-                    print("\033[32m#\033[0m", end=" ")  
+                    print(f"{DARK_GREEN}#{RESET}", end=" ")  
                 else:
                     print(".", end=" ")  
             print()  
@@ -40,51 +51,51 @@ class GameMap:
 
         if direction == "north":
             if y - 1 < 0 or self.map_data[y - 1][x] == '#':
-                print("\033[92mYou can't go here, the forest is too dense.\033[0m ")
+                print(f"{DARK_GREEN}You can't go here, the forest is too dense.{RESET}")
             else:
-                print("\033[33mYou move to the North!\033[0m")
+                print(f"{GREY}You move to the North!{RESET}")
                 y -= 1
 
         elif direction == "south":
             if y + 1 >= len(self.map_data) or self.map_data[y + 1][x] == '#':
-                print("\033[92mYou can't go here, the forest is too dense.\033[0m ")
+                print(f"{DARK_GREEN}You can't go here, the forest is too dense.{RESET}")
             else:
-                print("\033[33mYou move to the South!\033[0m")
+                print(f"{GREY}You move to the South!{RESET}")
                 y += 1
 
         elif direction == "east":
             if x + 1 >= len(self.map_data[0]) or self.map_data[y][x + 1] == '#':
-                print("\033[92mYou can't go here, the forest is too dense.\033[0m ")
+                print(f"{DARK_GREEN}You can't go here, the forest is too dense.{RESET}")
             else:
-                print("\033[33mYou move to the East!\033[0m")
+                print(f"{GREY}You move to the East!{RESET}")
                 x += 1
 
         elif direction == "west":
             if x - 1 < 0 or self.map_data[y][x - 1] == '#':
-                print("\033[92mYou can't go here, the forest is too dense.\033[0m ")
+                print(f"{DARK_GREEN}You can't go here, the forest is too dense.{RESET}")
             else:
-                print("\033[33mYou move to the West!\033[0m")
+                print(f"{GREY}You move to the West!{RESET}")
                 x -= 1
 
         if self.map_data[y][x] == "b":  
             player.weapon = ("Katana", 1.5) 
-            print("You found a Katana, The Best Blade !")
+            print(f"{GREY}You found a {GRAY_BLUE}Katana{GREY}, The Best Blade !")
 
         elif self.map_data[y][x] == "gs":  
             weapon = ("Great Sword", 1.25) 
             if player.weapon[1] < weapon[1]:
                 player.weapon = ("Great Sword", 1.25) 
-                print(f"You found a Great Sword. This weapon is better than your '{player.weapon[0]}', so you equip it!")
+                print(f"{GREY}You found a {GRAY_BLUE}Great Sword{GREY}. This weapon is better than your {GRAY_BLUE}'{player.weapon[0]}'{GREY}, so you equip it!")
             else:
-                print(f"You found a Great Sword, but your '{player.weapon[0]}' is better, so you continue using it.")
+                print(f"{GREY}You found a {GRAY_BLUE}Great Sword{GREY}, but your {GRAY_BLUE}'{player.weapon[0]}'{GREY} is better, so you continue using it.")
 
         elif self.map_data[y][x] == "sw":  
             weapon = ("Sword", 1) 
             if player.weapon[1] < weapon[1]:
                 player.weapon = ("Sword", 1) 
-                print(f"You found a Sword. This weapon is better than your '{player.weapon[0]}', so you equip it!")
+                print(f"{GREY}You found a {GRAY_BLUE}Sword{GREY}. This weapon is better than your {GRAY_BLUE}'{player.weapon[0]}'{GREY}, so you equip it!")
             else:
-                print(f"You found a Sword, but your '{player.weapon[0]}' is better, so you continue using it.")
+                print(f"{GREY}You found a {GRAY_BLUE}Sword{GREY}, but your {GRAY_BLUE}'{player.weapon[0]}'{GREY} is better, so you continue using it.")
 
         elif self.map_data[y][x] == "!": 
             monster_level = max(player.level - 1, 1) 
@@ -92,9 +103,9 @@ class GameMap:
             combat = Combat(player, monster)
             combat.start()
 
-        elif self.map_data[y][x] == "p": 
+        elif self.map_data[y][x] == "hp": 
             player.healpotion += 1
-            print("You found a potion! You can use it to heal yourself.")
+            print(f"{GREY}You found a {DARK_GREEN}heal potion{GREY}! You can use it to {DARK_GREEN}heal{GREY} yourself.")
 
         elif self.map_data[y][x] == "B": 
             boss = Monster(player.level + 3)  

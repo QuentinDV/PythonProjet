@@ -1,13 +1,24 @@
 from game.map import GameMap
 from time import sleep
+
+# Codes de couleur ANSI
+RESET = "\033[0m"
+DARK_GREEN = "\033[38;5;22m"
+ORANGE = "\033[38;5;214m"
+RED = "\033[91m"
+GREEN = "\033[92m"
+GREY = "\033[38;5;245m"
+
+
 def show_mainmenu():
-    print("\033[91mThis game needs to be played with a terminal window height of at least 10 lines.\033[0m")
-    print("""
-\033[38;5;214mMAIN MENU\033[0m
-1. Create New Game
-2. Load Saved Game
-3. About
-4. Exit
+    print("")
+    print(f"{RED}This game needs to be played with a terminal window height of at least 10 lines.{RESET}")
+    print(f"""
+{ORANGE}MAIN MENU{RESET}
+{GREEN}1{RESET}. Create New Game
+{GREEN}2{RESET}. Load Saved Game
+{GREEN}3{RESET}. About
+{GREEN}4{RESET}. Exit
           """)
 
 def show_aboutmenu():
@@ -15,15 +26,15 @@ def show_aboutmenu():
 
 
 def tutorial():
-    print("""Keybinds :
-Go Top/North : Z, N or T 
-Go Bottom/South : S, B
-Go Left/West : L, Q or W 
-Go Right/East : R, D or E
-Open Inventory : I
-See Keybinds : K
-Type "Save" to save your progress 
-Type "Exit" to left the game without saving""")
+    print(f"""{DARK_GREEN}Keybinds:{RESET}
+{GREY}Go Top/North:{RESET} Z, N or T 
+{GREY}Go Bottom/South:{RESET} S, B
+{GREY}Go Left/West:{RESET} L, Q or W 
+{GREY}Go Right/East:{RESET} R, D or E
+{GREY}Open Inventory:{RESET} I
+{GREY}See Keybinds:{RESET} H
+{ORANGE}Type "Save" to save your progress{RESET}
+{ORANGE}Type "Exit" to left the game without saving{RESET}""")
 
 def display_health(player):
     max_hp = player.max_hp
@@ -34,25 +45,26 @@ def display_health(player):
 
     health_bar = "▮" * full_blocks + "▯" * empty_blocks
 
-    return f"HP: [{health_bar} ] {current_hp}/{max_hp}"
+    return f"{GREEN}HP:{RESET} [{health_bar} ] {current_hp}/{max_hp}"
 
 
 def win_menu():
-    print("\033[92m" + """
+    print(f"""{GREEN}
 ____    ____  ______    __    __     ____    __    ____  __  .__   __. 
 \   \  /   / /  __  \  |  |  |  |    \   \  /  \  /   / |  | |  \ |  | 
  \   \/   / |  |  |  | |  |  |  |     \   \/    \/   /  |  | |   \|  | 
   \_    _/  |  |  |  | |  |  |  |      \            /   |  | |  . `  | 
     |  |    |  `--'  | |  `--'  |       \    /\    /    |  | |  |\   | 
-    |__|     \______/   \______/         \__/  \__/     |__| |__| \__| """ + "\033[0m")
+    |__|     \______/   \______/         \__/  \__/     |__| |__| \__| {RESET}""")
+    sleep(3)
 
 def loose_menu():
-    print("\033[91m" + """
+    print(f"""{RED}
 ____    ____  ______    __    __      __        ______     ______        _______. _______ 
 \   \  /   / /  __  \  |  |  |  |    |  |      /  __  \   /  __  \      /       ||   ____|
  \   \/   / |  |  |  | |  |  |  |    |  |     |  |  |  | |  |  |  |    |   (----`|  |__   
   \_    _/  |  |  |  | |  |  |  |    |  |     |  |  |  | |  |  |  |     \   \    |   __|  
     |  |    |  `--'  | |  `--'  |    |  `----.|  `--'  | |  `--'  | .----)   |   |  |____ 
     |__|     \______/   \______/     |_______| \______/   \______/  |_______/    |_______|
-\033[0m""")
+{RESET}""")
     sleep(3)
