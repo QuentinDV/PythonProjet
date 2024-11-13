@@ -1,6 +1,6 @@
 from game.player import Player
 from game.map import GameMap
-from game.menu import display_health,loose_menu,tutorial
+from game.menu import display_health,loose_menu,tutorial,win_menu
 from data.save import Save,Load
 from os import system
 
@@ -189,6 +189,10 @@ class GameManager:
 
             else:
                 print(f"{GREY}Invalid command!{RESET}")
+
+            if self.player.win and self.running:
+                win_menu()
+                self.running = False
 
         if self.player.hp < 1 and self.running:
             loose_menu()

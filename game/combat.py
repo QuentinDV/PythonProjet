@@ -61,6 +61,9 @@ class Combat:
         if self.player.hp <= 0:
             print("You have been defeated.")
         elif self.monster.hp <= 0:
+            if self.monster.isBoss:
+                self.player.win = True
+                return
             if self.use_atk_potion:
                 self.player.attack -= 20
             if self.use_dfc_potion:

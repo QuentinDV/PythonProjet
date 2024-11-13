@@ -20,6 +20,7 @@ class Player:
         self.inventory = Inventory()
         self.xp = 0  
         self.xp_to_level_up = 10  
+        self.win = False
 
     def to_dict(self):
         return {

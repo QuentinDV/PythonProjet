@@ -18,21 +18,31 @@ GREY = "\033[38;5;245m"
 class GameMap:
     def __init__(self):
         self.map_data = [
-            ["@", "#", "!", ".", "h", "#", ".", "b"], 
-            [".", "!", ".", "#", ".", "!", "h", "#"],
-            ["#", "#", ".", "#", "#", "#", "#", "#"], 
-            ["#", ".", ".", "#", ".", ".", ".", "#"],
-            ["#", ".", "#", "#", ".", "#", ".", "#"],
-            ["#", "!", "h", ".", "!", "#", "B", "#"],
+            ["@", ".", "!", ".", "#", "!", ".", ".", ".", "!", "h", "#", ".", "."], 
+            [".", "!", "s", ".", ".", ".", "#", ".", ".", "h", ".", ".", ".", "!"],
+            ["#", "#", "#", "#", ".", "#", "#", "#", "#", ".", ".", ".", "g", "#"],
+            ["!", "!", "!", "#", ".", "h", ".", ".", "#", ".", "!", ".", "#", "."],
+            ["#", "#", ".", "#", "#", "!", ".", "#", "#", "#", ".", ".", "#", "."],
+            ["!", ".", "h", ".", "#", "#", "!", ".", "#", ".", ".", "d", ".", "#"],
+            [".", ".", ".", ".", "#", "#", ".", ".", ".", ".", ".", "h", ".", "."],
+            [".", "a", ".", "!", "#", ".", ".", "!", ".", ".", "!", ".", "#", "."],
+            ["#", ".", ".", ".", ".", ".", ".", ".", "h", "!", ".", ".", "#", "."],
+            ["#", "#", "#", ".", "#", ".", ".", "!", ".", ".", ".", "#", "#", "."],
+            ["b", ".", ".", "!", "#", "h", ".", ".", "#", ".", ".", "#", "B", "."]
         ]
 
         self.player_map = [
-            [1, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0] * 14,
+            [0] * 14,
+            [0] * 14,
+            [0] * 14,
+            [0] * 14,
+            [0] * 14,
+            [0] * 14,
+            [0] * 14,
+            [0] * 14,
+            [0] * 14,
+            [0] * 14,
         ]
     
     def to_dict(self):
@@ -57,20 +67,27 @@ class GameMap:
             for dx in range(-1, 2):  
                 nx, ny = x + dx, y + dy
 
-                if ny < 0 or ny >= len(self.map_data) or nx < 0 or nx >= len(self.map_data[0]):
-                    print(f"{DARK_GREEN}#{RESET}", end=" ")
-                elif (dx, dy) == (0, 0):
-                    print(f"{ORANGE}@{RESET}", end=" ")
-                elif self.player_map[ny][nx] == 1:
-                    print(".", end=" ")
-                elif self.map_data[ny][nx] in ("!", "p", "b", "h", "a", "d", "gs", "sw"):
-                    print(f"{LIGHT_BLUE}?{RESET}", end=" ")
-                elif self.map_data[ny][nx] == "#":
-                    print(f"{DARK_GREEN}#{RESET}", end=" ")
+                # Vérification des indices pour éviter l'IndexError
+                if 0 <= ny < len(self.map_data) and 0 <= nx < len(self.map_data[0]) and 0 <= ny < len(self.player_map) and 0 <= nx < len(self.player_map[0]):
+                    if (dx, dy) == (0, 0):
+                        print(f"{ORANGE}@{RESET}", end=" ")
+                    elif self.player_map[ny][nx] == 1:
+                        print(".", end=" ")
+                    elif self.map_data[ny][nx] in ("!", "p", "b", "h", "a", "d", "g", "s"):
+                        print(f"{LIGHT_BLUE}?{RESET}", end=" ")
+                    elif self.map_data[ny][nx] == "#":
+                        print(f"{DARK_GREEN}#{RESET}", end=" ")
+                    elif self.map_data[ny][nx] == "B":
+                        # Boss en rouge
+                        print(f"{RED}B{RESET}", end=" ")
+                    else:
+                        print(".", end=" ")
                 else:
-                    print(".", end=" ")
+                    # Si l'indice est hors de la carte, afficher un mur
+                    print(f"{DARK_GREEN}#{RESET}", end=" ")
 
             print()
+
 
 
     def move_player(self, player, direction):
@@ -90,6 +107,7 @@ class GameMap:
             else:
                 print(f"{GREY}You move to the South!{RESET}")
                 y += 1
+                print(player.position)
 
         elif direction == "east":
             if x + 1 >= len(self.map_data[0]) or self.map_data[y][x + 1] == '#':
@@ -109,21 +127,21 @@ class GameMap:
             player.weapon = Weapon("Katana", 1.5) 
             print(f"{GREY}You found a {GRAY_BLUE}Katana{GREY}, The Best Blade !")
 
-        elif self.map_data[y][x] == "gs" and self.player_map[y][x] == 0:  
+        elif self.map_data[y][x] == "g" and self.player_map[y][x] == 0:  
             weapon = ("Great Sword", 1.25) 
             if player.weapon.damage < weapon[1]:
                 player.weapon = Weapon("Great Sword", 1.25) 
-                print(f"{GREY}You found a {GRAY_BLUE}Great Sword{GREY}. This weapon is better than your {GRAY_BLUE}'{player.weapon[0]}'{GREY}, so you equip it!")
+                print(f"{GREY}You found a {GRAY_BLUE}Great Sword{GREY}. This weapon is better than your {GRAY_BLUE}'{player.weapon.name}'{GREY}, so you equip it!")
             else:
-                print(f"{GREY}You found a {GRAY_BLUE}Great Sword{GREY}, but your {GRAY_BLUE}'{player.weapon[0]}'{GREY} is better, so you continue using it.")
+                print(f"{GREY}You found a {GRAY_BLUE}Great Sword{GREY}, but your {GRAY_BLUE}'{player.weapon.name}'{GREY} is better, so you continue using it.")
 
-        elif self.map_data[y][x] == "sw" and self.player_map[y][x] == 0:  
+        elif self.map_data[y][x] == "s" and self.player_map[y][x] == 0:  
             weapon = ("Sword", 1) 
             if player.weapon.damage < weapon[1]:
                 player.weapon = Weapon("Sword", 1) 
-                print(f"{GREY}You found a {GRAY_BLUE}Sword{GREY}. This weapon is better than your {GRAY_BLUE}'{player.weapon[0]}'{GREY}, so you equip it!")
+                print(f"{GREY}You found a {GRAY_BLUE}Sword{GREY}. This weapon is better than your {GRAY_BLUE}'{player.weapon.name}'{GREY}, so you equip it!")
             else:
-                print(f"{GREY}You found a {GRAY_BLUE}Sword{GREY}, but your {GRAY_BLUE}'{player.weapon[0]}'{GREY} is better, so you continue using it.")
+                print(f"{GREY}You found a {GRAY_BLUE}Sword{GREY}, but your {GRAY_BLUE}'{player.weapon.name}'{GREY} is better, so you continue using it.")
 
         elif self.map_data[y][x] == "!" and self.player_map[y][x] == 0: 
             monster = Monster(player.level +1)  
@@ -143,7 +161,7 @@ class GameMap:
             print(f"{GREY}You found a {LIGHT_BLUE}Defense Potion{GREY}! You can use it to {LIGHT_BLUE}increase your defense{GREY} in combat.")
 
         elif self.map_data[y][x] == "B" : 
-            boss = Monster(player.level + 3)  
+            boss = Monster(player.level + 5,True)  
             combat = Combat(player, boss)
             print("A boss has appeared! Prepare yourself for a tough battle!")
             combat.start()

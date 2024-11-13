@@ -1,8 +1,8 @@
 class Inventory:
     def __init__(self):
-        self.healpotion = 2
-        self.attackpotion = 1
-        self.defensepotion = 1
+        self.healpotion = 1
+        self.attackpotion = 0
+        self.defensepotion = 0
     
     def to_dict(self):
         return {
