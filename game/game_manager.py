@@ -1,6 +1,7 @@
 from game.player import Player
 from game.map import GameMap
 from game.menu import display_health,loose_menu,tutorial
+from data.save import Save,Load
 from os import system
 
 # Codes de couleur ANSI
@@ -20,13 +21,54 @@ class GameManager:
         self.player = None
         self.game_map = GameMap()
 
+    def to_dict(self):
+        return {
+            "player": self.player.to_dict() if self.player else None,
+            "game_map": self.game_map.to_dict(),
+        }
+
     def start_new_game(self):
         name = input(f"{ORANGE}Enter your name: {RESET}").upper()
         self.player = Player(name=name)
         self.game_loop() 
 
     def load_saved_game(self):
-        print("Loading saved game... (Not yet implemented)")
+        print(f"{GREY}Choose Save Number :")
+        save1 = Load("1").is_save()
+        save2 = Load("2").is_save()
+        save3 = Load("3").is_save()
+
+        if save1:
+            print(f"{DARK_GREEN}1. {ORANGE}{save1[0]}{GREY} | {ROSE}Lvl:{RESET}{save1[1]}{GREY} | {GRAY_BLUE}{save1[2]}{RESET}")
+        else:
+            print(f"{DARK_GREEN}1. {GREY}Empty{RESET}")
+
+        if save2:   
+            print(f"{DARK_GREEN}2. {ORANGE}{save2[0]}{GREY} | {ROSE}Lvl:{RESET}{save2[1]}{GREY} | {GRAY_BLUE}{save2[2]}{RESET}")
+        else:
+            print(f"{DARK_GREEN}2. {GREY}Empty{RESET}")
+
+        if save3:
+            print(f"{DARK_GREEN}3. {ORANGE}{save3[0]}{GREY} | {ROSE}Lvl:{RESET}{save3[1]}{GREY} | {GRAY_BLUE}{save3[2]}{RESET}")
+        else:
+            print(f"{DARK_GREEN}3. {GREY}Empty{RESET}")
+
+        save_number = input(f"{GREY}Enter the save number ({DARK_GREEN}'1'{GREY}, {DARK_GREEN}'2'{GREY}, {DARK_GREEN}'3'{GREY}) {DARK_GREEN}> {RESET}")
+
+        if save_number not in ["1", "2", "3"]:
+            print(f"{GREY}Invalid save number!{RESET}")
+            return
+        
+        if not Load(save_number).is_save():
+            print(f"{GREY}This save is empty!{RESET}")
+            return
+
+        save = Load(save_number)
+        save.json_load()
+
+        self.player = save.player
+        self.game_map = save.game_map
+        self.game_loop()
 
     def exit_game(self):
         print("Exiting the game...")
@@ -63,6 +105,41 @@ class GameManager:
         else:
             print("")
 
+    def save_menu(self):
+        system('cls')
+        print(f"{ORANGE}{self.player.name}{RESET} | {ROSE}Lvl:{RESET} {self.player.level} | {ROSE}{self.player.xp}/{self.player.xp_to_level_up} {GREY}XP{RESET}")
+        print(display_health(self.player))
+
+        print(f"{BROWN}Damage:{RESET} {self.player.attack} | {LIGHT_BLUE}Defense:{RESET} {self.player.defense}")
+        print(f"{GRAY_BLUE}Weapon:{RESET} {self.player.weapon.name}, {BROWN}Dmg:{RESET} x{self.player.weapon.damage}")
+
+        print(f"{GREY}Choose Save Number :")
+        save1 = Load("1").is_save()
+        save2 = Load("2").is_save()
+        save3 = Load("3").is_save()
+
+        if save1:
+            print(f"{DARK_GREEN}1. {ORANGE}{save1[0]}{GREY} | {ROSE}Lvl:{RESET}{save1[1]}{GREY} | {GRAY_BLUE}{save1[2]}{RESET}")
+        else:
+            print(f"{DARK_GREEN}1. {GREY}Empty{RESET}")
+
+        if save2:   
+            print(f"{DARK_GREEN}2. {ORANGE}{save2[0]}{GREY} | {ROSE}Lvl:{RESET}{save2[1]}{GREY} | {GRAY_BLUE}{save2[2]}{RESET}")
+        else:
+            print(f"{DARK_GREEN}2. {GREY}Empty{RESET}")
+
+        if save3:
+            print(f"{DARK_GREEN}3. {ORANGE}{save3[0]}{GREY} | {ROSE}Lvl:{RESET}{save3[1]}{GREY} | {GRAY_BLUE}{save3[2]}{RESET}")
+        else:
+            print(f"{DARK_GREEN}3. {GREY}Empty{RESET}")
+
+        save_number = input(f"{GREY}Enter the save number ({DARK_GREEN}'1'{GREY}, {DARK_GREEN}'2'{GREY}, {DARK_GREEN}'3'{GREY}) {DARK_GREEN}> {RESET}")
+
+        if save_number not in ["1", "2", "3"]:
+            print(f"{GREY}Invalid save number!{RESET}")
+            return
+        
+        return save_number
 
     def game_loop(self): 
         system('cls')
@@ -99,7 +176,13 @@ class GameManager:
                 print('')
 
             elif command == "save":
-                print("not implemented yet")
+                save_number = self.save_menu()
+                if save_number is not None:
+                    Save(self).json_save(save_number)
+                    print(f"{GREY}Game saved as {save_number}{RESET}")
+                    break
+                else:
+                    print(f"{GREY}Error! Game not saved.{RESET}")
 
             elif command == "exit":
                 self.running = False

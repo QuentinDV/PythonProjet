@@ -21,6 +21,39 @@ class Player:
         self.xp = 0  
         self.xp_to_level_up = 10  
 
+    def to_dict(self):
+        return {
+            "name": self.name,
+            "position": self.position,
+            "level": self.level,
+            "max_hp": self.max_hp,
+            "hp": self.hp,
+            "attack": self.attack,
+            "defense": self.defense,
+            "weapon": self.weapon.to_dict() if self.weapon else None,
+            "inventory": self.inventory.to_dict(),
+            "xp": self.xp,
+            "xp_to_level_up": self.xp_to_level_up,
+        }
+    
+    @classmethod
+    def from_dict(cls, data):
+        player = cls(data["name"])
+        player.position = tuple(data["position"])
+        player.level = data["level"]
+        player.max_hp = data["max_hp"]
+        player.hp = data["hp"]
+        player.attack = data["attack"]
+        player.defense = data["defense"]
+        player.weapon = Weapon(data["weapon"]["name"], data["weapon"]["damage"])
+        player.inventory = Inventory()
+        player.inventory.healpotion = data["inventory"]["healpotion"]
+        player.inventory.attackpotion = data["inventory"]["attackpotion"]
+        player.inventory.defensepotion = data["inventory"]["defensepotion"]
+        player.xp = data["xp"]
+        player.xp_to_level_up = data["xp_to_level_up"]
+        return player
+
     def add_xp(self, amount):
         self.xp += amount
         if self.xp >= self.xp_to_level_up:  

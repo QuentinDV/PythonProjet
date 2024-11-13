@@ -34,8 +34,19 @@ class GameMap:
             [0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0],
         ]
+    
+    def to_dict(self):
+        return {
+            "map_data": self.map_data,
+            "player_map": self.player_map,
+        }
 
-
+    @classmethod
+    def from_dict(cls, data):
+        game_map = cls()
+        game_map.map_data = data["map_data"]
+        game_map.player_map = data["player_map"]
+        return game_map
 
     def display_surroundings(self, player):
         x, y = player.position
