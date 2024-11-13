@@ -18,12 +18,12 @@ GREY = "\033[38;5;245m"
 class GameMap:
     def __init__(self):
         self.map_data = [
-            ["@", "#", "!", ".", "hp", "#", ".", "b"], 
-            [".", "!", ".", "#", ".", "!", "hp", "#"],
+            ["@", "#", "!", ".", "h", "#", ".", "b"], 
+            [".", "!", ".", "#", ".", "!", "h", "#"],
             ["#", "#", ".", "#", "#", "#", "#", "#"], 
             ["#", ".", ".", "#", ".", ".", ".", "#"],
             ["#", ".", "#", "#", ".", "#", ".", "#"],
-            ["#", "!", "hp", ".", "!", "#", "B", "#"],
+            ["#", "!", "h", ".", "!", "#", "B", "#"],
         ]
 
         self.player_map = [
@@ -52,7 +52,7 @@ class GameMap:
                     print(f"{ORANGE}@{RESET}", end=" ")
                 elif self.player_map[ny][nx] == 1:
                     print(".", end=" ")
-                elif self.map_data[ny][nx] in ("!", "p", "b", "hp", "ap", "dp", "gs", "sw"):
+                elif self.map_data[ny][nx] in ("!", "p", "b", "h", "a", "d", "gs", "sw"):
                     print(f"{LIGHT_BLUE}?{RESET}", end=" ")
                 elif self.map_data[ny][nx] == "#":
                     print(f"{DARK_GREEN}#{RESET}", end=" ")
@@ -119,15 +119,15 @@ class GameMap:
             combat = Combat(player, monster)
             combat.start()
 
-        elif self.map_data[y][x] == "hp" and self.player_map[y][x] == 0: 
+        elif self.map_data[y][x] == "h" and self.player_map[y][x] == 0: 
             player.inventory.healpotion += 1
             print(f"{GREY}You found a {DARK_GREEN}heal potion{GREY}! You can use it to {DARK_GREEN}heal{GREY} yourself.")
 
-        elif self.map_data[y][x] == "ap" and self.player_map[y][x] == 0:
+        elif self.map_data[y][x] == "a" and self.player_map[y][x] == 0:
             player.inventory.attackpotion += 1
             print(f"{GREY}You found an {BROWN}Attack Potion{GREY}! You can use it to {BROWN}boost your attack{GREY} in combat.")
 
-        elif self.map_data[y][x] == "dp" and self.player_map[y][x] == 0:
+        elif self.map_data[y][x] == "d" and self.player_map[y][x] == 0:
             player.inventory.defensepotion += 1
             print(f"{GREY}You found a {LIGHT_BLUE}Defense Potion{GREY}! You can use it to {LIGHT_BLUE}increase your defense{GREY} in combat.")
 

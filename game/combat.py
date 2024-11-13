@@ -4,7 +4,7 @@ import random
 # Codes de couleur ANSI
 RESET = "\033[0m"
 ORANGE = "\033[38;5;214m"
-RED = "\033[91m" # POUR LE BOSS
+RED = "\033[91m" 
 GREEN = "\033[92m"
 BROWN = "\033[38;5;94m"
 DARK_GREEN = "\033[38;5;22m"
