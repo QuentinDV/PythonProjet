@@ -21,17 +21,20 @@ class GameManager:
         self.player = None
         self.game_map = GameMap()
 
+    # Conversion de l'objet en dictionnaire
     def to_dict(self):
         return {
             "player": self.player.to_dict() if self.player else None,
             "game_map": self.game_map.to_dict(),
         }
 
+    # Création d'une nouvelle partie
     def start_new_game(self):
         name = input(f"{ORANGE}Enter your name: {RESET}").upper()
         self.player = Player(name=name)
         self.game_loop() 
 
+    # Chargement d'une partie sauvegardée
     def load_saved_game(self):
         print(f"{GREY}Choose Save Number :")
         save1 = Load("1").is_save()
@@ -70,10 +73,12 @@ class GameManager:
         self.game_map = save.game_map
         self.game_loop()
 
+    # Quitter le jeu
     def exit_game(self):
         print("Exiting the game...")
         self.running = False
 
+    # Menu en Jeu
     def game_menu(self):
         print(f"{ORANGE}{self.player.name}{RESET} | {ROSE}Lvl:{RESET} {self.player.level} | {ROSE}{self.player.xp}/{self.player.xp_to_level_up} {GREY}XP{RESET}")
         print(display_health(self.player))
@@ -83,6 +88,7 @@ class GameManager:
 
         self.game_map.display_surroundings(self.player)
     
+    # Menu d'inventaire
     def inventory_menu(self):
         system('cls')
         print(f"{ORANGE}{self.player.name}{RESET} | {ROSE}Lvl:{RESET} {self.player.level} | {ROSE}{self.player.xp}/{self.player.xp_to_level_up} {GREY}XP{RESET}")
@@ -105,6 +111,7 @@ class GameManager:
         else:
             print("")
 
+    # Menu de sauvegarde
     def save_menu(self):
         system('cls')
         print(f"{ORANGE}{self.player.name}{RESET} | {ROSE}Lvl:{RESET} {self.player.level} | {ROSE}{self.player.xp}/{self.player.xp_to_level_up} {GREY}XP{RESET}")
@@ -141,6 +148,7 @@ class GameManager:
         
         return save_number
 
+    # Jeu
     def game_loop(self): 
         system('cls')
         print(f"{GREY}Welcome, {ORANGE}{self.player.name}{RESET}!")
@@ -197,6 +205,7 @@ class GameManager:
         if self.player.hp < 1 and self.running:
             loose_menu()
 
+    # Utilisation d'une potion de soin
     def use_healpotion(self):
         if self.player.inventory.healpotion > 0:
             self.player.inventory.healpotion -= 1

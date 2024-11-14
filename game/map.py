@@ -45,12 +45,14 @@ class GameMap:
             [0] * 14,
         ]
     
+    # Conversion de l'objet en dictionnaire
     def to_dict(self):
         return {
             "map_data": self.map_data,
             "player_map": self.player_map,
         }
 
+    # Création de l'objet à partir d'un dictionnaire
     @classmethod
     def from_dict(cls, data):
         game_map = cls()
@@ -58,6 +60,7 @@ class GameMap:
         game_map.player_map = data["player_map"]
         return game_map
 
+    # Affichage de la carte
     def display_surroundings(self, player):
         x, y = player.position
 
@@ -88,8 +91,7 @@ class GameMap:
 
             print()
 
-
-
+    # Déplacement du joueur
     def move_player(self, player, direction):
         x, y = player.position
         system('cls')

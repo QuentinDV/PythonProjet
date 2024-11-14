@@ -14,7 +14,6 @@ def main():
         show_mainmenu()
         choice = input(f"{GREEN}>{RESET} ")
 
-
         if choice == "1":
             game.start_new_game()
         elif choice == "2":

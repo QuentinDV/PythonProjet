@@ -18,7 +18,3 @@ class Monster:
             self.attack *= 2
             self.defense *= 2
         
-        
-
-    def is_alive(self):
-        return self.hp > 0

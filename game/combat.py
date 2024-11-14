@@ -22,6 +22,7 @@ class Combat:
         self.use_atk_potion = False
         self.use_dfc_potion = False
 
+    # Début du combat
     def start(self):
         system('cls')
         print(f"{GREY}A wild {RED}{self.monster.name}{GREY} appears!")
@@ -76,6 +77,7 @@ class Combat:
             else:
                 print(f"{ORANGE}You{GREY} defeated the {RED}Monster{GREY}! And gained {ROSE}{self.monster.level * 5}{GREY} XP / {ROSE}{self.player.xp}/{self.player.xp_to_level_up}{GREY} XP{RESET}")
 
+    # Menu de l'inventaire
     def inventory_menu(self):
         while True:
             system('cls')
@@ -123,6 +125,7 @@ class Combat:
                 system('cls')
                 print(f"{GREY}Invalid input. Try again.{RESET}")
 
+    # Utilisation de la potion de soin
     def use_healpotion(self):
         if self.player.inventory.healpotion > 0:
             self.player.inventory.healpotion -= 1
@@ -137,6 +140,7 @@ class Combat:
         else:
             print(f"{ORANGE}You{GREY} have no {DARK_GREEN}heal potions{GREY} left!{RESET}")     
 
+    # Utilisation de la potion d'attaque
     def use_attackpotion(self):
         if self.player.inventory.attackpotion > 0:
             self.player.inventory.attackpotion -= 1
@@ -152,6 +156,7 @@ class Combat:
         else:
             print(f"{ORANGE}You{GREY} have no {BROWN}Attack Potions{GREY} left!{RESET}")
 
+    # Utilisation de la potion de défense
     def use_defensepotion(self):
         if self.player.inventory.defensepotion > 0:
             self.player.inventory.defensepotion -= 1
@@ -167,6 +172,7 @@ class Combat:
         else:
             print(f"{ORANGE}You{GREY} have no {LIGHT_BLUE}Defense Potions{GREY} left!{RESET}")
 
+    # Affichage de la vie
     def display_health(self,current_hp,max_hp):
         full_blocks = int(current_hp // 10)
         empty_blocks = int((max_hp // 10) - full_blocks)
@@ -175,6 +181,7 @@ class Combat:
 
         return f"{GREEN}HP:{RESET} [{health_bar} ] {current_hp}/{max_hp}"
 
+    # Attaque du joueur
     def player_attack(self):
         playerdamage = self.calculate_crit_damage(self.player.attack * self.player.weapon.damage - self.monster.defense)
         self.monster.hp -= playerdamage
@@ -185,6 +192,7 @@ class Combat:
             print(f"{ORANGE}You{RESET} dealt {BROWN}{playerdamage} damage{RESET} to the {RED}{self.monster.name}{RESET} " +
                   f"/ The {RED}{self.monster.name}{RESET} dealt {BROWN}{monsterdamage} damage{RESET} to {ORANGE}You.{RESET}")
 
+    # Calcul des dégâts critiques
     def calculate_crit_damage(self, damage):
         # Chance de coup critique (par exemple 20%)
         crit_chance = 0.2

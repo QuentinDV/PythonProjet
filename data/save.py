@@ -10,6 +10,7 @@ class Save:
     def __init__(self,game_state):
         self.game = game_state
 
+    # Sauvegarde de la partie
     def json_save(self, filenb):
         with open(f"data/save_{filenb}.json", 'w') as f:
             json.dump(self.game.to_dict(), f, indent=4)
@@ -21,6 +22,7 @@ class Load:
         self.player = None
         self.game_map = None
     
+    # Chargement de la partie
     def json_load(self):
         with open(f"data/save_{self.save_nb}.json", 'r') as f:
             data = json.load(f)
@@ -28,6 +30,7 @@ class Load:
             self.game_map = GameMap.from_dict(data["game_map"])
             print(f"{GREY}Game loaded from save {self.save_nb}{RESET}")
 
+    # Vérification de l'existence d'une sauvegarde
     def is_save(self):
         try:
             with open(f"data/save_{self.save_nb}.json", 'r') as f:

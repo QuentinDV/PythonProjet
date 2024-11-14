@@ -9,7 +9,7 @@ RED = "\033[91m"
 GREEN = "\033[92m"
 GREY = "\033[38;5;245m"
 
-
+# Affichage du menu principal
 def show_mainmenu():
     print("")
     print(f"{RED}This game needs to be played with a terminal window height of at least 10 lines.{RESET}")
@@ -20,11 +20,12 @@ def show_mainmenu():
 {GREEN}3{RESET}. About
 {GREEN}4{RESET}. Exit
           """)
-
+    
+# Affichage du menu de credit
 def show_aboutmenu():
     print("\033[38;5;220mThis is a simple game created using Python made by Quentin Dassi Vignon\033[0m")
 
-
+# Affichage des touches
 def tutorial():
     print(f"""{DARK_GREEN}Keybinds:{RESET}
 {GREY}Go Top/North:{RESET} Z, N or T 
@@ -36,6 +37,7 @@ def tutorial():
 {ORANGE}Type "Save" to save your progress{RESET}
 {ORANGE}Type "Exit" to left the game without saving{RESET}""")
 
+# affichage de la vie du joueur
 def display_health(player):
     max_hp = player.max_hp
     current_hp = player.hp
@@ -47,7 +49,7 @@ def display_health(player):
 
     return f"{GREEN}HP:{RESET} [{health_bar} ] {current_hp}/{max_hp}"
 
-
+# Affichage du menu de victoire
 def win_menu():
     print(f"""{GREEN}
 ____    ____  ______    __    __     ____    __    ____  __  .__   __. 
@@ -58,6 +60,7 @@ ____    ____  ______    __    __     ____    __    ____  __  .__   __.
     |__|     \______/   \______/         \__/  \__/     |__| |__| \__| {RESET}""")
     sleep(3)
 
+# Affichage du menu de défaite
 def loose_menu():
     print(f"""{RED}
 ____    ____  ______    __    __      __        ______     ______        _______. _______ 

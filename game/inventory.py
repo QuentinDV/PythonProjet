@@ -4,6 +4,7 @@ class Inventory:
         self.attackpotion = 0
         self.defensepotion = 0
     
+    # Conversion de l'objet en dictionnaire
     def to_dict(self):
         return {
             "healpotion": self.healpotion,
@@ -11,6 +12,7 @@ class Inventory:
             "defensepotion": self.defensepotion,
         }
     
+    # Création de l'objet à partir d'un dictionnaire
     @classmethod
     def from_dict(cls, data):
         inventory = cls()

@@ -22,6 +22,7 @@ class Player:
         self.xp_to_level_up = 10  
         self.win = False
 
+    # Conversion de l'objet en dictionnaire
     def to_dict(self):
         return {
             "name": self.name,
@@ -37,6 +38,7 @@ class Player:
             "xp_to_level_up": self.xp_to_level_up,
         }
     
+    # Création de l'objet à partir d'un dictionnaire
     @classmethod
     def from_dict(cls, data):
         player = cls(data["name"])
@@ -55,6 +57,7 @@ class Player:
         player.xp_to_level_up = data["xp_to_level_up"]
         return player
 
+    # Ajout d'expérience + gestion du niveau
     def add_xp(self, amount):
         self.xp += amount
         if self.xp >= self.xp_to_level_up:  
